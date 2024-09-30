@@ -1,38 +1,42 @@
 const mongoose = require("mongoose");
 
+
 const rentalHistorySchema = new mongoose.Schema({
-    userId: {
+    userId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",  // Reference to User model
-        required: false
+        ref: 'user', required: true
+     },
+    productId: { 
+        type: mongoose.Schema.Types.ObjectId, ref: 'product', 
+        required: true
+     },
+    quantity: { 
+        type: Number, 
+        required: true 
     },
-    
-    equipmentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product", 
+    startDate: { 
+        type: Date, 
+        required: true 
     },
-    quantity: {
-        type: Number,
-        
+    endDate: { 
+        type: Date, 
+        required: true 
     },
-    startDate: {
-        type: Date,
-        
-    },
-    endDate: {
-        type: Date,
-    
-    },
-    totalDays: {
-        
-    },
+    totalDays: { 
+        type: Number, 
+        required: true
+     },
     totalAmount: {
-        type: Number,
-    },
+         type: Number,
+         required: true
+         },
+    createdAt: { 
+        type: Date,
+         default: Date.now 
+        }
 });
 
-const RentalHistory = mongoose.model("RentalHistory", rentalHistorySchema);
+const RentalHistory = mongoose.model('RentalHistory', rentalHistorySchema);
 
-module.exports = {
-    RentalHistory,
-};
+module.exports = RentalHistory;
+

@@ -160,6 +160,35 @@
     </div>
   </section>
   <script>
+
+function updateValues(inputObj, max) {
+    const result = {};
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth(); // 0-indexed (0 for January, 11 for December)
+
+    // Get the number of days in the current month
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Iterate through each day of the current month
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        
+        if (inputObj[dateString] !== undefined) {
+            // If the date exists in the input object, calculate the new value
+            const newValue = max - inputObj[dateString];
+            result[dateString] = newValue;
+        } else {
+            // If the date does not exist, add it with the max value
+            result[dateString] = max;
+        }
+    }
+
+    return result;
+}
+
+
+
   let productId = "<%= product._id %>";
   let totalPiece = <%= product.totalPiece %>;
   let reservedDates = <%- JSON.stringify(product.reservedDates) %>;
@@ -220,7 +249,7 @@
         }
 
         const data = await response.text(); // Handle success response
-        console.log(data);
+        alert(data);
     } catch (error) {
         console.error('Error making reservation:', error);
     }
@@ -263,6 +292,7 @@
     await makeReservation(productId, startDate.toISOString().split('T')[0], endDate.toISOString().split('T')[0], quantity);
     console.log("total piece is " , totalPiece)
     console.log("reservation is " , reservedDates)
+    alert("process completed please refresh the website .")
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -275,12 +305,7 @@
     const currentYear = currentDate.getFullYear();
     
     // Example product availability
-    const productAvailability = {
-        "2024-09-15": 50,
-        "2024-09-22": 20,
-        "2024-09-30": 10,
-       
-    };
+    const productAvailability = updateValues(reservedDates , totalPiece)
 
     function generateCalendar(year, month) {
         const firstDay = new Date(year, month, 1);

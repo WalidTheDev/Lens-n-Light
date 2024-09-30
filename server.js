@@ -12,6 +12,7 @@ const productRouter = require("./Routers/product")
 const AdminRouter = require("./Routers/admin")
 const {middlewareForProductDetailPage , middlewaretForGetProductType} = require("./Middlewares/product")
 const {Product} = require("./models/products")
+const RentalHistory = require("./models/historyBooking");
 
 
 app.use(express.json());
@@ -93,13 +94,13 @@ app.get('/addproduct' , (req ,res)=>{
 app.get("/product/productType/:productType" , middlewaretForGetProductType , (req ,res)=>{
   console.log(req.products)
   const products = req.products ;
-  console.log(products)
   res.render("cardPage" , {products})
 })
 
 
-app.post('/reservations', async (req, res) => {
+app.post('/reservations'  , async (req, res) => {
   console.log("Reservation request received");
+  if (req.user?.role !== "user" ) return res.send("you are not logged in . please log in to perform this action");
   const { productId, startDate, endDate, numToReserve } = req.body;
 
   try {
@@ -145,6 +146,22 @@ app.post('/reservations', async (req, res) => {
 
       // Save the updated product
       await product.save();
+      const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+      const totalAmount = product.pricePerDay * numToReserve * totalDays;
+
+    
+      const rentalHistory = new RentalHistory({
+          userId: req.user.userId ,  
+          productId: productId,
+          quantity: numToReserve,
+          startDate: startDate,
+          endDate: endDate,
+          totalDays: totalDays,
+          totalAmount: totalAmount
+      });
+
+      await rentalHistory.save();
+      console.log(rentalHistory)
 
       res.send("Reservation successful.");
   } catch (error) {

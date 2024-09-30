@@ -12,7 +12,7 @@
             <div class="flex flex-wrap -m-4">
                 <% products.forEach(product => { %>
                     <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
-                        <a class="block relative h-48 rounded overflow-hidden" data-product-id="<%= product._id %>">
+                        <a class="block relative h-48 rounded overflow-hidden" data-product-id="<%= product._id %>"  href="/product/<%= product._id %>  ">   
                             <img alt="<%= product.productName %>" class="object-cover object-center w-full h-full block" src="<%= product.productImage %>">
                         </a>
                         <div class="mt-4">
