@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Users Rental History</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>All Users Rental History</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Product ID</th>
+                    <th>Quantity</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Days</th>
+                    <th>Total Amount</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% rentalHistory.forEach(order => { %>
+                    <tr>
+                        <td><%= order._id %></td>
+                        <td><%= order.userId %></td>
+                        <td><%= order.productId._id %></td>
+
+                        <td><%= order.quantity %></td>
+                        <td><%= new Date(order.startDate).toLocaleDateString() %></td>
+                        <td><%= new Date(order.endDate).toLocaleDateString() %></td>
+                        <td><%= order.totalDays %></td>
+                        <td>$<%= order.totalAmount.toFixed(2) %></td>
+                        <td><%= new Date(order.createdAt).toLocaleString() %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

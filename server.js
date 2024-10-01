@@ -6,13 +6,18 @@ const app = express();
 const cookieParser = require("cookie-parser")
 const mongodbURL = 'mongodb://127.0.0.1:27017/Lens-and-Light'
 const {LogRequestMiddleware , checkAuth} = require("./Middlewares/global")
-const {middlewareForHomePage ,} = require("./Middlewares/User");
+const {middlewareForHomePage , restrictTo} = require("./Middlewares/User");
 const userRouter = require("./Routers/user")
 const productRouter = require("./Routers/product")
 const AdminRouter = require("./Routers/admin")
 const {middlewareForProductDetailPage , middlewaretForGetProductType} = require("./Middlewares/product")
 const {Product} = require("./models/products")
 const RentalHistory = require("./models/historyBooking");
+const cameramanRoutes = require("./Routers/camerman")
+const {handleLoginCameraMen ,} = require("./Controllers/camerman")
+
+
+
 
 
 app.use(express.json());
@@ -41,7 +46,53 @@ app.get("/login-signUp" , (req , res)=>{
     res.sendFile(path.join(__dirname, 'views', 'Signup.html'))
 })
 
-app.get("/home" , middlewareForHomePage , (req , res)=>{
+app.get("/user/product/history", async (req, res) => {
+  const userId = req.user.userId; // Assuming req.user.userId is set from authentication
+
+  try {
+      const rentalHistory = await RentalHistory.find({ userId })
+          .populate('productId', 'name price') // Populate product details
+          .sort({ startDate: -1 }); // Sort by start date, most recent first
+
+      // Render the EJS template and pass the rentalHistory data
+      res.render('userHistory', { rentalHistory });
+  } catch (error) {
+      console.error("Error fetching rental history:", error);
+      res.status(500).send("Error fetching rental history");
+  }
+});
+
+app.get("/admin/product/history", async (req, res) => {
+  try {
+      const rentalHistory = await RentalHistory.find()
+          .populate('productId', 'name price') // Populate product details
+          .sort({ startDate: -1 }); // Sort by start date, most recent first
+
+      // Render the EJS template and pass the rentalHistory data
+      res.render('adminHistory', { rentalHistory });
+  } catch (error) {
+      console.error("Error fetching rental history:", error);
+      res.status(500).send("Error fetching rental history");
+  }
+});
+
+
+
+// admin get request
+app.get("/admin/login" , (req, res)=>{
+  res.sendFile(path.join(__dirname, 'views', 'adminLogin.html'))
+})
+
+
+app.get("/admin/addproduct" , (req , res)=>{
+  res.sendFile(path.join(__dirname, 'views', 'AddProduct.html'))
+})
+
+app.get("/admin/panel" , (req , res)=>{
+  res.sendFile(path.join(__dirname, 'views', 'adminDashborad.html'))
+})
+
+app.get("/home"  , middlewareForHomePage , (req , res)=>{
   const data = req.data ;
   res.render("school" , data);
 })
@@ -50,6 +101,7 @@ app.get("/product/:id" , middlewareForProductDetailPage , (req , res)=>{
   const product = req.product ;
   res.render("ProductDetail" , {product});
 });
+
 
 const dummyCameraman = {
   userId: "61a1234567890abcdef12345",
@@ -69,18 +121,21 @@ const dummyCameraman = {
   profilePicture: "https://via.placeholder.com/150"  // Dummy profile picture URL
 };
 
-app.get('/edit-product/:id', (req, res) => {
-  const product = {
-      pricePerDay: 1200,
-      productName: "prd1",
-      productType: "camera",
-      productBrand: "brand1",
-      productImage: "img1",
-      productDescription: "description 1",
-      totalPiece: 12
-  };
+app.get('/admin/edit/product/:id', async(req, res) => {
+  const prodId = req.params.id;
+  const product = await Product.findById(prodId)
   res.render('editProduct', { product });
 });
+
+app.get("/cameraman/signup" , (req , res)=>{
+  res.sendFile(path.join(__dirname, 'views', 'cameramanSignup.html'))
+})
+app.use("/cameraman", cameramanRoutes);
+app.get("/cameraman/login" , (req , res)=>{
+  res.sendFile(path.join(__dirname, 'views', 'cameralogin.html'))
+})
+app.post("/cameraman/login" , handleLoginCameraMen)
+
 
 
 app.get("/cameraman" , (req , res)=>{

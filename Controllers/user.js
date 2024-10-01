@@ -3,6 +3,7 @@ const { json } = require("express");
 const {User}= require("./../models/User");
 const jwt = require("jsonwebtoken");
 const { getToken ,} = require("./../Services/auth");
+const RentalHistory = require("./../models/historyBooking")
 
 async function handleCreateUser(req, res) {
     const { name, email, password } = req.body;
@@ -77,6 +78,8 @@ function handleLogOut(req , res){
     res.clearCookie("authToken");
     return res.redirect("/home");
 }
+
+
 
 module.exports = {
     handleCreateUser ,

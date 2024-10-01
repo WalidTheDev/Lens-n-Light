@@ -4,8 +4,8 @@ const {json} = require("express")
 async function handleAddProduct(req , res) {
     const  pricePerDay =  parseInt(req.body.pricePerDay) ;
     const   totalPiece =  parseInt(req.body. totalPiece) ;
-    const { productName , productBrand  , productImage , productDescription } = req.body ;
-    const newProduct = await Product.create({pricePerDay , productName , productBrand  , productImage  , productDescription ,  totalPiece });
+    const { productName , productBrand  , productImage , productDescription  , productType} = req.body ;
+    const newProduct = await Product.create({pricePerDay , productName , productBrand  , productImage  , productDescription ,  totalPiece , productType });
     console.log("product created " , newProduct);
     res.status(201).json({ message: "Product created successfully", product: newProduct });
 
@@ -15,7 +15,7 @@ async function handleAddProduct(req , res) {
 
 
 async function handleDeleteProductById(req , res) {
-    const productId = req.params.id ;
+    const productId = req.body.id ;
     const product = await Product.findByIdAndDelete(productId);
     console.log(product);
     if (!product){
@@ -86,6 +86,29 @@ async function handleReservation(req , res) {
     await product.save();
 
     res.send("reservation sucessfull ");
+}
+
+
+async function handleEditProduct(req, res) {
+    const { id } = req.params; // Get the product ID from the URL
+    const updateData = req.body; // Get the data to update from the request body
+
+    try {
+        // Find the product by ID and update it
+        const updatedProduct = await Product.findByIdAndUpdate(id, updateData, {
+            new: true, // Return the updated document
+            runValidators: true, // Ensure validation rules are applied
+        });
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        return res.status(200).json(updatedProduct); // Return the updated product
+    } catch (err) {
+        console.error('Error updating product:', err);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 }
 
 

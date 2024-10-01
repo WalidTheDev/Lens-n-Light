@@ -1,5 +1,5 @@
 function restrictTo(roles = []){
-    console.log("restrictt function ccalled ")
+    console.log("restrict function called ")
     return function(req , res , next){
         if(!req.user){
             return res.redirect("/login-signUp")

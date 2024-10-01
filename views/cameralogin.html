@@ -8,76 +8,89 @@
 </head>
 <style>
     body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f8ff; /* Light blue background */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff; /* Light blue background */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
 
-.login-container {
-    background-color: #ffffff; /* White background for form */
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    width: 300px;
-}
+    .login-container {
+        background-color: #ffffff; /* White background for form */
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        width: 300px;
+    }
 
-h2 {
-    text-align: center;
-    color: #333;
-}
+    h2 {
+        text-align: center;
+        color: #333;
+    }
 
-.form-group {
-    margin-bottom: 15px;
-}
+    .form-group {
+        margin-bottom: 15px;
+    }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-}
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
 
-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #add8e6; /* Light blue border */
-    border-radius: 5px;
-    box-sizing: border-box;
-}
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #add8e6; /* Light blue border */
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
 
-input:focus {
-    border-color: #87ceeb; /* Darker blue on focus */
-    outline: none;
-}
+    input:focus {
+        border-color: #87ceeb; /* Darker blue on focus */
+        outline: none;
+    }
 
-.login-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #a4dbee; /* Light blue button */
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+    .login-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #a4dbee; /* Light blue button */
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-.login-button:hover {
-    background-color: #6abfe0; /* Darker blue on hover */
-}
+    .login-button:hover {
+        background-color: #6abfe0; /* Darker blue on hover */
+    }
 
+    .signup-link {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .signup-link a {
+        color: #007bff; /* Link color */
+        text-decoration: none;
+    }
+
+    .signup-link a:hover {
+        text-decoration: underline; /* Underline on hover */
+    }
 </style>
 <body>
     <div class="login-container">
         <h2>Cameraman Login</h2>
-        <form class="login-form">
+        <form class="login-form" action="/cameraman/login" method="POST"> <!-- Update action as needed -->
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="username">Email</label>
+                <input type="text" id="username" name="email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -85,6 +98,9 @@ input:focus {
             </div>
             <button type="submit" class="login-button">Login</button>
         </form>
+        <div class="signup-link">
+            <p>Don't have a cameraman account? <a href="/cameraman/signup">Sign up here</a></p>
+        </div>
     </div>
 </body>
 </html>

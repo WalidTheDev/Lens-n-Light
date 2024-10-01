@@ -186,12 +186,16 @@
                 <%= token.userName %>
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/user/logout">Log out</a></li>
-            </ul>
-        </li>
+              <% if (token.role === 'admin') { %>
+                  <li><a class="dropdown-item" href="/admin/panel">Admin Panel</a></li>
+              <% } else { %>
+                  <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+              <% } %>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/user/logout">Log out</a></li>
+          </ul>
+      </li>
     <% } else { %>
         <li class="nav-item">
             <a class="nav-link btn btn-primary" href="/login-signUp">Log In</a>
@@ -339,10 +343,10 @@
                       Earn with us
                     </h6>
                     <p>
-                      <a href="#!" class="text-reset">Admin</a>
+                      <a href="/admin/login" class="text-reset">Admin</a>
                     </p>
                     <p>
-                      <a href="#!" class="text-reset">Camera Man</a>
+                      <a href="/cameraman/login" class="text-reset">Camera Man</a>
                     </p>
                     <p>
                       <a href="#!" class="text-reset">Hirings</a>

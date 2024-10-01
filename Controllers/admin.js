@@ -1,19 +1,22 @@
-const Cameraman = require("./../models/cameraMan");
+const {admin} = require("./../models/admin")
 const {getToken ,} = require("./../Services/auth")
 
-async function handleLoginCameraMen(req , res){
+async function handleadminLogin(req , res){
     const {email , password } = req.body;
     try {
         console.log(email , password)
-        const user = await Cameraman.findOne({ "contactDetails.email": email });
-
+       const user = await admin.findOne({email : email});
+       console.log(user)
        if(!user){
-        return res.status(404).json({message : "No such user"});
+        return res.status(404).json({message : "wrong email"});
        }
      
-       if (user.password === password){
-        const payload = {userName : user.Name , userId : user._id , role : "cameraman"};
+       if (user.pswd === password){
+        console.log("password match")
+        const payload = {userName : user.name , userId : user._id , role : "admin"};
+        console.log("payload filled")
         const token = getToken(payload);
+
         console.log(token)
         res.cookie("authToken" , token)
         
@@ -27,5 +30,4 @@ async function handleLoginCameraMen(req , res){
     }
 }
 
-
-module.exports = {handleLoginCameraMen ,}
+module.exports = {handleadminLogin ,}
