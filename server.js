@@ -15,7 +15,8 @@ const {Product} = require("./models/products")
 const RentalHistory = require("./models/historyBooking");
 const cameramanRoutes = require("./Routers/camerman")
 const {handleLoginCameraMen ,} = require("./Controllers/camerman")
-
+const {handleDeleteProductById} = require("./Controllers/product")
+const Cameraman = require("./models/cameraMan")
 
 
 
@@ -102,6 +103,10 @@ app.get("/product/:id" , middlewareForProductDetailPage , (req , res)=>{
   res.render("ProductDetail" , {product});
 });
 
+app.post("/admin/delete/product" ,handleDeleteProductById)
+app.get("/admin/deleteproduct" , (req , res)=>{
+  res.sendFile(path.join(__dirname, 'views', 'adminDeleteproduct.html'))
+})
 
 const dummyCameraman = {
   userId: "61a1234567890abcdef12345",
@@ -127,6 +132,23 @@ app.get('/admin/edit/product/:id', async(req, res) => {
   res.render('editProduct', { product });
 });
 
+app.post('/admin/products/edit', async (req, res) => {
+  const id   = req.body.productId; // Extract ID and updates from the body
+  
+
+  try {
+      const product = await Product.findByIdAndUpdate(id, updates, { new: true });
+      if (!product) {
+          return res.status(404).json({ message: 'Product not found' });
+      }
+      res.status(200).json(product);
+  } catch (error) {
+      console.error('Error updating product:', error);
+      res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+
 app.get("/cameraman/signup" , (req , res)=>{
   res.sendFile(path.join(__dirname, 'views', 'cameramanSignup.html'))
 })
@@ -136,7 +158,9 @@ app.get("/cameraman/login" , (req , res)=>{
 })
 app.post("/cameraman/login" , handleLoginCameraMen)
 
+app.get("/camera/man/list" , (req, res)=>{
 
+})
 
 app.get("/cameraman" , (req , res)=>{
   res.render('pfp2', { cameraman: dummyCameraman  , isOwnProfile : true});

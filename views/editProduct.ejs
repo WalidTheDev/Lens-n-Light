@@ -64,7 +64,7 @@
         <div class="card-header">
             Edit Product
         </div>
-        <form action="/api/admin/editProduct" method="POST" class="p-6 space-y-4">
+        <form action="/admin/products/edit" method="post" class="p-6 space-y-4">
             <div class="mb-4">
                 <label for="productName">Product Name</label>
                 <input type="text" id="productName" name="productName" class="input-field" value="<%= product.productName %>" required>
@@ -97,6 +97,7 @@
                 <label for="productImage">Image Link</label>
                 <input type="url" id="productImage" name="productImage" class="input-field" value="<%= product.productImage %>" required>
             </div>
+            <input type="text" name="productId" value=<%= product._id %>" readonly>
             <div class="text-center mt-6">
                 <button type="submit">Save Changes</button>
             </div>

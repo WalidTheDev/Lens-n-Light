@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #dc3545; /* Bootstrap danger color */
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Delete Product</h2>
+    <form id="deleteForm" action="/admin/delete/product" method="post">
+        <input type="text" id="productID" name="id" placeholder="Enter Product ID" required>
+        <button type="submit">Delete Product</button>
+    </form>
+</div>
+
+<script>
+    
+        // Example: Uncomment the line below to send a delete request (replace with your actual endpoint)
+        // fetch(`/delete-product/${encodeURIComponent(productID)}`, { method: 'DELETE' });
+
+</script>
+
+</body>
+</html>
