@@ -70,7 +70,7 @@ See the `LICENSE` file for more information.
 **Walid Shaikh**
 - Email: [walidshaikh552@gmail.com](mailto:walidshaikh552@gmail.com)
 - GitHub: [@WalidTheDev](https://github.com/WalidTheDev)
-- Project Link: [https://github.com/WalidTheDev/LiteWrite](https://github.com/WalidTheDev/LiteWrite)
+- Project Link: [https://github.com/WalidTheDev/LiteWrite](https://github.com/WalidTheDev/Lens-n-Light)
 
 
 ---
